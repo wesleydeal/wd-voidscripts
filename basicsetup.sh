@@ -86,4 +86,22 @@ case $yn in
 	;;
 esac
 
+echo "\n\n"
+read -p "Disable root login over ssh? [y/N]" yn
+case $yn in
+[Yy]* )
+	sed -i '/PermitRootLogin/d' /etc/ssh/sshd_config
+	sed -i '/DenyUsers/d' /etc/ssh/sshd_config
+	sed -i '/WD-VOIDSCRIPTS/d' /etc/ssh/sshd_config
+	echo "\n\n\n# BEGIN WD-VOIDSCRIPTS AUTO CONFIG" >> /etc/ssh/sshd_config
+	echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+	read -p "Also disallow ssh login for commonly bruteforced users: admin,user,test,ubuntu,ubnt,support,oracle,pi,guest,postgres,ftpuser,usuario,nagios,1234,ftp,operator,git,hadoop,ts3,mumble,apache,webmaster? [y/N]" yna
+	case $yna in
+	[Yy]* ) echo "DenyUsers root,admin,user,test,ubuntu,ubnt,support,oracle,pi,guest,postgres,ftpusers,usuario,nagios,1234,ftp,operator,git,hadoop,ts3,mumble,apache,webmaster" >> /etc/ssh/sshd_config;;
+	* ) echo "DenyUsers root" >> /etc/ssh/sshd_config;;
+	esac
+	echo "# END WD-VOIDSCRIPTS AUTO CONFIG" >> /etc/ssh/sshd_config
+	;;
+esac
+
 echo Script complete.
