@@ -29,10 +29,10 @@ ln -s /etc/sv/caddy /var/service/
 mkdir /var/www
 groupadd --system webmaster
 chown root:webmaster /var/www
-chmod 755 /var/www
+chmod 775 /var/www
 chmod g+s /var/www
 echo "Hello, world!" > /var/www/index.html
-chmod 755 /var/www/index.html
+chmod 775 /var/www/index.html
 chown root:webmaster /var/www/index.html
 
 # create service
